@@ -47,6 +47,7 @@ public class SlackService {
      */
     public void connectRTM(String slackToken) {
         RTM rtm = restTemplate.getForEntity(slackApiEndpoints.getRtmConnectApi(), RTM.class, slackToken).getBody();
+        logger.info("rtm object body : "+rtm);
         currentUser = rtm.getSelf();
        // webSocketUrl = rtm.getUrl();
         getImChannels(slackToken, 200,"");
