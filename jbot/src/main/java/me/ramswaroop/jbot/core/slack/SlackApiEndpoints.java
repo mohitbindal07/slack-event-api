@@ -16,11 +16,11 @@ public class SlackApiEndpoints {
      * @return endpoint for RTM.connect()
      */
     public String getRtmConnectApi() {
-       // return slackApi + "/rtm.connect?token={token}";
-    	 return slackApi + "/rtm.connect?scope="+"identify";
+        return slackApi + "/rtm.connect?token=xoxb-1507109434786-1523963379766-afPTzPbkhrJ80MNgBjPQCFKB";
+    	// return slackApi + "/rtm.connect";
     }
 
     public String getImListApi() {
-        return slackApi + "/conversations.list?token={token}&limit={limit}&cursor={cursor}&types=im";
+        return slackApi + "/conversations.list?token={xoxb-1507109434786-1523963379766-afPTzPbkhrJ80MNgBjPQCFKB}&limit={limit}&cursor={cursor}&types=im";
     }
 }
