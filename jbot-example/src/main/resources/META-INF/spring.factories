@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=me.ramswaroop.jbot.core.common.configuration.DefaultConfiguration
