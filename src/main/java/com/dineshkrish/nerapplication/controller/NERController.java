@@ -26,6 +26,7 @@ import com.dineshkrish.nerapplication.model.WorkOrderFQN;
 import com.dineshkrish.nerapplication.model.WorkOrderList;
 import com.google.gson.Gson;
 
+/*
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -37,7 +38,7 @@ import edu.stanford.nlp.time.TimeAnnotations;
 import edu.stanford.nlp.time.TimeAnnotator;
 import edu.stanford.nlp.time.TimeExpression;
 import edu.stanford.nlp.util.CoreMap;
-
+*/
 @RestController
 @RequestMapping(value = "/api/v1")
 public class NERController {
@@ -52,7 +53,7 @@ public class NERController {
         stanfordCoreNLP.annotate(coreDocument);
         List<CoreLabel> coreLabels = coreDocument.tokens();
         return new HashSet<>(collectList(coreLabels, type));
-    }*/
+    }
 
     private List<String> collectList(List<CoreLabel> coreLabels, final Type type) {
 
@@ -61,7 +62,7 @@ public class NERController {
                 .filter(coreLabel -> type.getName().equalsIgnoreCase(coreLabel.get(CoreAnnotations.NamedEntityTagAnnotation.class)))
                 .map(CoreLabel::originalText)
                 .collect(Collectors.toList()); 
-    }
+    }*/
     
     @GetMapping(value = "/workorder/{orderId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WorkOrder> workOrderDetail(@PathVariable("orderId") String orderId) throws IOException {
@@ -74,7 +75,7 @@ public class NERController {
     }
 	
 	 
-    public static void suTime(List<String> texts) {
+   /* public static void suTime(List<String> texts) {
     	Properties props = new Properties();
         AnnotationPipeline pipeline = new AnnotationPipeline();
         pipeline.addAnnotator(new TokenizerAnnotator(false));
@@ -138,7 +139,7 @@ public class NERController {
 		new Gson().toJson(workOrders,writer);
 		writer.flush(); //flush data to file   <---
         writer.close(); //close write          <---
-    }
+    }*/
     
     public static WorkOrder readWorkOrderJsonFile(String orderId) throws IOException {
     	

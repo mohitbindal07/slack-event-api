@@ -1,11 +1,12 @@
 package com.dineshkrish.nerapplication.core;
 
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
-
+/*
+ * import edu.stanford.nlp.pipeline.StanfordCoreNLP; import
+ * org.springframework.context.annotation.Bean; import
+ * org.springframework.stereotype.Service;
+ */
 import java.util.Properties;
-
+/*
 @Service
 public class Pipeline {
 
@@ -30,3 +31,4 @@ public class Pipeline {
         return stanfordCoreNLP;
     }
 }
+*/
