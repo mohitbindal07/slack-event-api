@@ -1,28 +1,23 @@
 package com.dineshkrish.nerapplication.controller;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dineshkrish.nerapplication.model.Type;
 import com.dineshkrish.nerapplication.model.WorkOrder;
-import com.dineshkrish.nerapplication.model.WorkOrderFQN;
 import com.dineshkrish.nerapplication.model.WorkOrderList;
 import com.google.gson.Gson;
 
@@ -141,30 +136,43 @@ public class NERController {
         writer.close(); //close write          <---
     }*/
     
-    public static WorkOrder readWorkOrderJsonFile(String orderId) throws IOException {
-    	
-    	Gson gson = new Gson();
-    	File resource = new ClassPathResource("workOrderDetail.json").getFile();
-		String text = new String(Files.readAllBytes(resource.toPath()));
-    	WorkOrder[] data = gson.fromJson(text, WorkOrder[].class);
-    	List<WorkOrder> orders = Arrays.asList(data);
-    	for(WorkOrder order: orders) {
-    		if(orderId.equals(order.getWorkOrderId())){
-    			return order;
-    		}
-    	}
-    	return null;
-    }
+	public static WorkOrder readWorkOrderJsonFile(String orderId) throws IOException {
+
+		Gson gson = new Gson();
+		String text = "";
+		ClassPathResource classPathResource = new ClassPathResource("workOrderDetail.json");
+		try {
+			byte[] binaryData = FileCopyUtils.copyToByteArray(classPathResource.getInputStream());
+			text = new String(binaryData, StandardCharsets.UTF_8);
+			WorkOrder[] data = gson.fromJson(text, WorkOrder[].class);
+			List<WorkOrder> orders = Arrays.asList(data);
+			for (WorkOrder order : orders) {
+				if (orderId.equals(order.getWorkOrderId())) {
+					return order;
+				}
+			}
+		} catch (IOException e) {
+
+		}
+		return null;
+	}
     
-    public static WorkOrderList readAllWorkOrderJsonFile() throws IOException {
-    	
-    	Gson gson = new Gson();
-    	File resource = new ClassPathResource("workOrderDetail.json").getFile();
-		String text = new String(Files.readAllBytes(resource.toPath()));
-    	WorkOrder[] data = gson.fromJson(text, WorkOrder[].class);
-    	List<WorkOrder> orders = Arrays.asList(data);
-    	WorkOrderList workOrderList = new WorkOrderList();
-    	workOrderList.setWorkorders(orders);
-    	return workOrderList;
-    }
+	public static WorkOrderList readAllWorkOrderJsonFile() throws IOException {
+
+		String text = "";
+		Gson gson = new Gson();
+		ClassPathResource classPathResource = new ClassPathResource("workOrderDetail.json");
+		try {
+			byte[] binaryData = FileCopyUtils.copyToByteArray(classPathResource.getInputStream());
+			text = new String(binaryData, StandardCharsets.UTF_8);
+			WorkOrder[] data = gson.fromJson(text, WorkOrder[].class);
+			List<WorkOrder> orders = Arrays.asList(data);
+			WorkOrderList workOrderList = new WorkOrderList();
+			workOrderList.setWorkorders(orders);
+			return workOrderList;
+		} catch (IOException e) {
+			
+		}
+		return null;
+	}
 }
