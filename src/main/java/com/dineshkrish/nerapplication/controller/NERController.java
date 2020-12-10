@@ -7,23 +7,17 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dineshkrish.nerapplication.model.Type;
@@ -36,9 +30,7 @@ import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.AnnotationPipeline;
-import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.POSTaggerAnnotator;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.pipeline.TokenizerAnnotator;
 import edu.stanford.nlp.pipeline.WordsToSentencesAnnotator;
 import edu.stanford.nlp.time.TimeAnnotations;
@@ -50,17 +42,17 @@ import edu.stanford.nlp.util.CoreMap;
 @RequestMapping(value = "/api/v1")
 public class NERController {
 
-    @Autowired
-    private StanfordCoreNLP stanfordCoreNLP;
+   // @Autowired
+   // private StanfordCoreNLP stanfordCoreNLP;
 
-    @PostMapping
+   /* @PostMapping
     @RequestMapping(value = "/ner")
     public Set<String> ner(@RequestBody final String input, @RequestParam final Type type) {
         CoreDocument coreDocument = new CoreDocument(input);
         stanfordCoreNLP.annotate(coreDocument);
         List<CoreLabel> coreLabels = coreDocument.tokens();
         return new HashSet<>(collectList(coreLabels, type));
-    }
+    }*/
 
     private List<String> collectList(List<CoreLabel> coreLabels, final Type type) {
 
