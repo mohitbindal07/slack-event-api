@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,11 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dineshkrish.nerapplication.model.WorkOrder;
+import com.dineshkrish.nerapplication.model.WorkOrderFQN;
 import com.dineshkrish.nerapplication.model.WorkOrderList;
 import com.google.gson.Gson;
 
@@ -58,17 +62,59 @@ public class NERController {
                 .map(CoreLabel::originalText)
                 .collect(Collectors.toList()); 
     }*/
-    
-    @GetMapping(value = "/workorder/{orderId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WorkOrder> workOrderDetail(@PathVariable("orderId") String orderId) throws IOException {
-    	return ResponseEntity.status(HttpStatus.OK).body(readWorkOrderJsonFile(orderId));
-    }
-    
-    @GetMapping(value = "/workorder",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WorkOrderList> allWorkOrder() throws IOException {
-    	return ResponseEntity.status(HttpStatus.OK).body(readAllWorkOrderJsonFile());
-    }
 	
+	@GetMapping(value = "/workorder",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<WorkOrderList> allWorkOrder() throws IOException {
+		return ResponseEntity.status(HttpStatus.OK).body(readAllWorkOrderJsonFile());
+	}
+	
+    @GetMapping(value = "/workorder/{orderId}/status",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> workOrderStatus(@PathVariable("orderId") String orderId
+			) throws IOException {
+		WorkOrder workOrder = readWorkOrderJsonFile(orderId);
+		if (workOrder != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(workOrder.getWorkOrderStatus());
+		}
+		return ResponseEntity.status(HttpStatus.OK).body("no status found for this workorder");
+	}
+    
+    @GetMapping(value = "/workorder/{orderId}/assigned",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> workOrderAssigned(@PathVariable("orderId") String orderId
+			) throws IOException {
+		WorkOrder workOrder = readWorkOrderJsonFile(orderId);
+		if (workOrder != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(workOrder.getWorkOrderAssigned());
+		}
+		return ResponseEntity.status(HttpStatus.OK).body("workorder is not assigned to anyone");
+	}
+    
+    @GetMapping(value = "/workorder/{orderId}/length",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> workOrderLength(@PathVariable("orderId") String orderId
+			) throws IOException {
+		WorkOrder workOrder = readWorkOrderJsonFile(orderId);
+		List<String> lengthList = new ArrayList<>();
+		if (workOrder != null) {
+			for (WorkOrderFQN workOrderFQN : workOrder.getFqn()) {
+				lengthList.add(workOrderFQN.getLength());
+			}
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(lengthList);
+	}
+    
+    @GetMapping(value = "/workorder/{orderId}/milestone",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> workOrderMilestone(@PathVariable("orderId") String orderId
+			) throws IOException {
+		WorkOrder workOrder = readWorkOrderJsonFile(orderId);
+		List<String> statusList = new ArrayList<>();
+		if (workOrder != null) {
+			for (WorkOrderFQN workOrderFQN : workOrder.getFqn()) {
+				statusList.add(workOrderFQN.getStatus());
+			}
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(statusList);
+	}
+    
+   
 	 
    /* public static void suTime(List<String> texts) {
     	Properties props = new Properties();
