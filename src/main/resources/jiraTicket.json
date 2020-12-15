@@ -1,0 +1,14 @@
+[{
+        "jiraId": "JT971152",
+        "module": "chatbot1",
+        "title": "chatbot1 application using nlp",
+        "description": "chatbot1 slack app",
+        "severity": "medium"
+    }, {
+        "jiraId": "JT971356",
+        "module": "chatbot2",
+        "title": "chatbot2 application using nlp",
+        "description": "chatbot2 slack app",
+        "severity": "low"
+    }
+]
