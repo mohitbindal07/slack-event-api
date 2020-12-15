@@ -1,9 +1,11 @@
 package com.dineshkrish.nerapplication.model;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class JiraTicket {
+public class JiraTicket implements Serializable{
 	
 	@JsonIgnore	
 	private String jiraId;

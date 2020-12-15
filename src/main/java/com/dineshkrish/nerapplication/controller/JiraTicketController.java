@@ -1,8 +1,10 @@
 package com.dineshkrish.nerapplication.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -107,14 +109,15 @@ public class JiraTicketController {
 	}
 
 	private static void writeToJsonFile(List<JiraTicket> copyJiraTicket) throws IOException {
-		File file = new ClassPathResource("jiraTicket.json").getFile();
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-
-		Writer writer = new FileWriter(file.getAbsoluteFile());
-		new Gson().toJson(copyJiraTicket, writer);
-		writer.flush(); // flush data to file
-		writer.close(); // close write
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	    ObjectOutputStream oos = new ObjectOutputStream(bos);
+	    oos.writeObject(copyJiraTicket);
+	    byte[] bytes = bos.toByteArray();
+		ClassPathResource classPathResource = new ClassPathResource("jiraTicket.json");
+		FileCopyUtils.copy(bytes,classPathResource.getFile());
+		
+		oos.flush(); // flush data to file
+		oos.close(); // close write
+		bos.close();
 	}
 }
