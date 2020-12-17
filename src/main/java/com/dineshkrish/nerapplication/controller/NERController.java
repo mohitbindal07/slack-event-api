@@ -75,7 +75,7 @@ public class NERController {
 		if (workOrder != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(workOrder.getWorkOrderStatus());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("no status found for this workorder");
+		return ResponseEntity.status(HttpStatus.OK).body("WORKORDER NOT FOUND");
 	}
     
     @GetMapping(value = "/workorder/{orderId}/assigned",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -85,7 +85,7 @@ public class NERController {
 		if (workOrder != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(workOrder.getWorkOrderAssigned());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("workorder is not assigned to anyone");
+		return ResponseEntity.status(HttpStatus.OK).body("WORKORDER NOT ASSIGNED TO ANYONE");
 	}
     
     @GetMapping(value = "/workorder/{orderId}/length",produces = MediaType.APPLICATION_JSON_VALUE)
