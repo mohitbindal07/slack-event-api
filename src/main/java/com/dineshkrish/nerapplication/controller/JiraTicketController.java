@@ -110,11 +110,12 @@ public class JiraTicketController {
 
 	private static void writeToJsonFile(List<JiraTicket> copyJiraTicket) throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	    ObjectOutputStream oos = new ObjectOutputStream(bos);
-	    oos.writeObject(copyJiraTicket);
-	    byte[] bytes = bos.toByteArray();
 		ClassPathResource classPathResource = new ClassPathResource("jiraTicket.json");
-		FileCopyUtils.copy(bytes,classPathResource.getFile());
+	    ObjectOutputStream oos = new ObjectOutputStream(bos);
+	    oos.writeObject(classPathResource);
+	   // byte[] bytes = bos.toByteArray();
+		
+		FileCopyUtils.copy(classPathResource.getInputStream(),oos);
 		
 		oos.flush(); // flush data to file
 		oos.close(); // close write
